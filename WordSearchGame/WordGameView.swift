@@ -425,70 +425,10 @@ class WordSearch {
     private func placeWords() -> [Word] {
         return words.shuffled().filter(place)
     }
-
-//    func render() -> Data {
-//        let pageRect = CGRect(x: 0, y: 0, width: 612, height: 792)
-//        let margin = pageRect.width / 10
-//
-//        let availableSpace = pageRect.width - (margin * 2)
-//        let gridCellSize = availableSpace / CGFloat(gridSize)
-//
-//        let gridLetterFont = UIFont.systemFont(ofSize: 16)
-//        let gridLetterStyle = NSMutableParagraphStyle()
-//        gridLetterStyle.alignment = .center
-//
-//        let gridLetterAttributes: [NSAttributedString.Key: Any] = [
-//            .font: gridLetterFont,
-//            .paragraphStyle: gridLetterStyle
-//        ]
-//
-//        let renderer = UIGraphicsPDFRenderer(bounds: pageRect)
-//
-//        return renderer.pdfData { ctx in
-//            for _ in 0 ..< numberOfPages {
-//                ctx.beginPage()
-//
-//                _ = makeGrid()
-//
-//                // WRITE GRID
-//                for i in 0 ... gridSize {
-//                    let linePosition = CGFloat(i) * gridCellSize
-//
-//                    ctx.cgContext.move(to: CGPoint(x: margin, y: margin + linePosition))
-//                    ctx.cgContext.addLine(to: CGPoint(x: margin + (CGFloat(gridSize) * gridCellSize), y: margin + linePosition))
-//
-//                    ctx.cgContext.move(to: CGPoint(x: margin + linePosition, y: margin))
-//                    ctx.cgContext.addLine(to: CGPoint(x: margin + linePosition, y: margin + (CGFloat(gridSize) * gridCellSize)))
-//                }
-//
-//                ctx.cgContext.setLineCap(.square)
-//                ctx.cgContext.strokePath()
-//
-//                // DRAW LETTERS
-//                var xOffset = margin
-//                var yOffset = margin
-//
-//                for column in labels {
-//                    for label in column {
-//                        let size = String(label.letter).size(withAttributes: gridLetterAttributes)
-//                        let yPosition = (gridCellSize - size.height) / 2
-//                        let cellRect = CGRect(x: xOffset, y: yOffset + yPosition, width: gridCellSize, height: gridCellSize)
-//                        String(label.letter).draw(in: cellRect, withAttributes: gridLetterAttributes)
-//                        xOffset += gridCellSize
-//                    }
-//
-//                    xOffset = margin
-//                    yOffset += gridCellSize
-//                }
-//            }
-//        }
-//    }
 }
 
 
-// Our UIKit to SwiftUI wrapper view
 struct TouchLocatingView: UIViewRepresentable {
-    // The types of touches users want to be notified about
     struct TouchType: OptionSet {
         let rawValue: Int
 
@@ -498,17 +438,13 @@ struct TouchLocatingView: UIViewRepresentable {
         static let all: TouchType = [.started, .moved, .ended]
     }
 
-    // A closure to call when touch data has arrived
     var onUpdate: (CGPoint, TouchLocatingView.TouchType) -> Void
 
-    // The list of touch types to be notified of
     var types = TouchType.all
 
-    // Whether touch information should continue after the user's finger has left the view
     var limitToBounds = true
 
     func makeUIView(context: Context) -> TouchLocatingUIView {
-        // Create the underlying UIView, passing in our configuration
         let view = TouchLocatingUIView()
         view.onUpdate = onUpdate
         view.touchTypes = types
@@ -519,54 +455,45 @@ struct TouchLocatingView: UIViewRepresentable {
     func updateUIView(_ uiView: TouchLocatingUIView, context: Context) {
     }
 
-    // The internal UIView responsible for catching taps
     class TouchLocatingUIView: UIView {
-        // Internal copies of our settings
         var onUpdate: ((CGPoint, TouchLocatingView.TouchType) -> Void)?
         var touchTypes: TouchLocatingView.TouchType = .all
         var limitToBounds = true
 
-        // Our main initializer, making sure interaction is enabled.
         override init(frame: CGRect) {
             super.init(frame: frame)
             isUserInteractionEnabled = true
         }
 
-        // Just in case you're using storyboards!
         required init?(coder: NSCoder) {
             super.init(coder: coder)
             isUserInteractionEnabled = true
         }
 
-        // Triggered when a touch starts.
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             guard let touch = touches.first else { return }
             let location = touch.location(in: self)
             send(location, forEvent: .started)
         }
 
-        // Triggered when an existing touch moves.
         override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
             guard let touch = touches.first else { return }
             let location = touch.location(in: self)
             send(location, forEvent: .moved)
         }
 
-        // Triggered when the user lifts a finger.
         override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
             guard let touch = touches.first else { return }
             let location = touch.location(in: self)
             send(location, forEvent: .ended)
         }
 
-        // Triggered when the user's touch is interrupted, e.g. by a low battery alert.
         override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
             guard let touch = touches.first else { return }
             let location = touch.location(in: self)
             send(location, forEvent: .ended)
         }
 
-        // Send a touch location only if the user asked for it
         func send(_ location: CGPoint, forEvent event: TouchLocatingView.TouchType) {
             guard touchTypes.contains(event) else {
                 return
@@ -579,7 +506,6 @@ struct TouchLocatingView: UIViewRepresentable {
     }
 }
 
-// A custom SwiftUI view modifier that overlays a view with our UIView subclass.
 struct TouchLocater: ViewModifier {
     var type: TouchLocatingView.TouchType = .all
     var limitToBounds = true
@@ -593,7 +519,6 @@ struct TouchLocater: ViewModifier {
     }
 }
 
-// A new method on View that makes it easier to apply our touch locater view.
 extension View {
     func onTouch(type: TouchLocatingView.TouchType = .all, limitToBounds: Bool = true, perform: @escaping (CGPoint, TouchLocatingView.TouchType) -> Void) -> some View {
         self.modifier(TouchLocater(type: type, limitToBounds: limitToBounds, perform: perform))
