@@ -12,6 +12,7 @@
 		7333DB802C977B8B00F0A279 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7333DB7F2C977B8B00F0A279 /* Assets.xcassets */; };
 		7333DB832C977B8B00F0A279 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7333DB822C977B8B00F0A279 /* Preview Assets.xcassets */; };
 		7333DB8A2C977BB200F0A279 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333DB892C977BB200F0A279 /* WelcomeView.swift */; };
+		7333DB8C2C97C7CB00F0A279 /* Words.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333DB8B2C97C7CB00F0A279 /* Words.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		7333DB7F2C977B8B00F0A279 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7333DB822C977B8B00F0A279 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7333DB892C977BB200F0A279 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		7333DB8B2C97C7CB00F0A279 /* Words.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Words.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 				7333DB7B2C977B8A00F0A279 /* WordSearchGameApp.swift */,
 				7333DB892C977BB200F0A279 /* WelcomeView.swift */,
 				7333DB7D2C977B8A00F0A279 /* WordGameView.swift */,
+				7333DB8B2C97C7CB00F0A279 /* Words.swift */,
 				7333DB7F2C977B8B00F0A279 /* Assets.xcassets */,
 				7333DB812C977B8B00F0A279 /* Preview Content */,
 			);
@@ -141,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7333DB7E2C977B8A00F0A279 /* WordGameView.swift in Sources */,
+				7333DB8C2C97C7CB00F0A279 /* Words.swift in Sources */,
 				7333DB8A2C977BB200F0A279 /* WelcomeView.swift in Sources */,
 				7333DB7C2C977B8A00F0A279 /* WordSearchGameApp.swift in Sources */,
 			);

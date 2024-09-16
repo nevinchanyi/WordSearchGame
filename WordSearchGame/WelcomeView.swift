@@ -9,31 +9,23 @@ import SwiftUI
 
 struct WelcomeView: View {
     
-    @State private var word = ""
     @State private var words: [String] = []
     
     var body: some View {
         NavigationView {
             List {
                 Section {
-                    TextField(text: $word) {
-                        Text("E.g.: Strawberry, car, etc.")
-                    }
+                    
                     Button(action: {
-                        add(word: word)
+                        getWords()
                     }, label: {
-                        Text("Add Word")
+                        Text("Generate Words")
+                            .bold()
                     })
-                    .disabled(
-                        words.contains(word.uppercased()) ||
-                        word.isEmpty ||
-                        word.contains(" ") ||
-                        word.count > 8
-                    )
                 } header: {
-                    Text("Word")
+                    Text("Words")
                 } footer: {
-                    Text("The added word appears in the word search game. The word MUST be unique, must not have spaces, and less than 8 charachters.")
+                    Text("Generates 5 random words for game.")
                 }
                 
                 Section {
@@ -44,22 +36,19 @@ struct WelcomeView: View {
                             .bold()
                             .foregroundStyle(Color.blue)
                     }
-                    .disabled(words.count != 5)
-                } footer: {
-                    Text("Choose 5 words to start the game.")
+                    .disabled(words.isEmpty)
                 }
                 
                 Section {
                     if words.isEmpty {
-                        Text("No words. Add your first word.")
+                        Text("No words.")
                             .foregroundStyle(Color.red.opacity(0.7))
                     }
                     ForEach(Array(words), id: \.self) { word in
                         Text(word)
                     }
-                    .onDelete(perform: delete)
                 } header: {
-                    Text("Added Words")
+                    Text("Word list")
                 } footer: {
                     Text("The list of words for the game.")
                 }
@@ -67,13 +56,12 @@ struct WelcomeView: View {
             .navigationTitle("Word Search")
         }
     }
-    func add(word: String) {
-        words.append(word.uppercased())
-        self.word = ""
-    }
     
-    func delete(at offsets: IndexSet) {
-        words.remove(atOffsets: offsets)
+    func getWords() {
+        words = []
+        for _ in 0..<5 {
+            words.append(wordArray.randomElement() ?? "")
+        }
     }
 }
 
